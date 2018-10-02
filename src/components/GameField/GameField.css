@@ -1,0 +1,30 @@
+.game {
+}
+.game-field {
+}
+.game-field.blurred {
+  filter: blur(3px);
+}
+.brick {
+  width: 1.25rem;
+  height: 1.25rem;
+  box-sizing: border-box;
+  border: 1px solid #999;
+  margin: 0.125rem;
+  float: left;
+  border-radius: 3px;
+}
+.brick.full {
+  background: #000;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+}

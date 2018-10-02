@@ -1,0 +1,28 @@
+.game-list {
+}
+.game-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.game-list li {
+  padding: 0.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.game-list li > *:not(:first-child) {
+  font-size: 0.75rem;
+}
+.game-list li:not(:last-child) {
+  border-bottom: 1px solid #000;
+}
+.game-list .name,
+.game-list .finished {
+  flex-basis: 100%;
+}
+.game-list .finished {
+}
+.game-list .result,
+.game-list .time {
+}

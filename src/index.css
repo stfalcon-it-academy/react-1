@@ -1,5 +1,10 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+}
+body,
+input,
+button {
+  font-family: 'Russo One', sans-serif;
+  user-select: none;
 }
