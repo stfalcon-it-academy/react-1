@@ -1,32 +1,86 @@
-# Прості компоненти
-## Створення компонента
-- `props`;
-- деструктуризація в `ES6`.
+# `Redux` [→](https://redux.js.org)
+## Складність підтримання актуальності даних
+## 3 принципи `Redux`
+- єдине джерело інформації;
+- напряму дані можна тільки зчитувати;
+- зміна даних відбувається лише з допомогою чистих функцій.
 
-# `PropTypes` [→](https://reactjs.org/docs/typechecking-with-proptypes.html)
-- пакет `prop-types`; [→](https://www.npmjs.com/package/prop-types)
-- типи; [→](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)
-- `isRequired`.
+## `store`, як простий об'єкт
+## `actions`
+- `actionTypes`;
+- об'єкт `action`;
+- `action creator`.
 
-# Розумні компоненти
-## Створення компонента
-- класи в `ES6`;
-- методи класу;
-- збереження контексту.
+## `reducers`
+- `defaultState`;
+- обробка `actions`. `switch`.
 
-## `state` компонента
-- ініціалізація;
-- `setState()`.
+## `store`
+- ініціалізація
+```
+import { createStore } from 'redux';
+import reducer from 'reducer';
 
-## Життєвий цикл [→](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
-- `constructor(props)` [→](https://reactjs.org/docs/react-component.html#constructor)
-- `getDerivedStateFromProps(props, state)` [→](https://reactjs.org/docs/react-component.html#static-getderivedstatefromprops)
-- `shouldComponentUpdate(nextProps, nextState)
-` [→](https://reactjs.org/docs/react-component.html#shouldcomponentupdate)
-- `render()` [→](https://reactjs.org/docs/react-component.html#render)
-- `componentDidMount()` [→](https://reactjs.org/docs/react-component.html#componentdidmount)
-- `componentDidUpdate(prevProps, prevState)` [→](https://reactjs.org/docs/react-component.html#componentdidupdate)
-- `componentWillUnmount()` [→](https://reactjs.org/docs/react-component.html#componentwillunmount)
+const store = createStore(reducer);
+```
 
-# Поділ на логіку і презентацію
-# Події в `react` [→](https://reactjs.org/docs/events.html)
+- отримання даних
+```
+store.getState();
+```
+
+- зміна даних
+```
+store.dispatch(action);
+```
+
+- підписка на зміни
+```
+const unsubscribe = store.subscribe(() =>
+  console.log(store.getState());
+);
+...
+unsubscribe();
+```
+
+# Ззаємодія з `react`.
+## Створення `store`.
+- `combineReducers`
+```
+const rootReducer = combineReducers({ reducer1, reducer2 });
+```
+
+- Redux DevTools extension [→](http://extension.remotedev.io/)
+```
+let store;
+if (process.env.NODE_ENV === 'development') {
+  store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+} else {
+  store = createStore(rootReducer);
+}
+```
+
+## Підписка на `store`. Компонент `<Provider/>`.
+## Отримання даних компонентами. HOC `connect`.
+```
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => {
+  const { someFieldFromState } = state;
+  return {
+    dataFromRedux: someFieldFromState,
+  };
+};
+const ComponentExtendedWithState = connect(mapStateToProps)(Component);
+```
+
+## Отримання `actionCreators` компонентами.
+```
+import { bindActionCreators } from 'redux';
+import { actionCreator } from 'actions';
+
+const mapDispatchToProps = dispatcher => {
+  return bindActionCreators({ actionCreator }, dispatcher);
+};
+const ComponentExtendedWithActionCreator  = connect(null, mapDispatchToProps )(Component);
+```

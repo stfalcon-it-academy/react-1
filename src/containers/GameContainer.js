@@ -1,40 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Game from '../components/GameField/GameField';
 import PlayerNameForm from '../components/PlayerNameForm/PlayerNameForm';
-import FinishMenu from '../components/Menu/FinishMenu';
 import PauseMenu from '../components/Menu/PauseMenu';
 
-const wall = [
-  [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-  [0, 0, 0, 0, 0, 1, 0, 1, 0, 0],
-  [0, 0, 0, 0, 1, 1, 1, 1, 0, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
-];
+import { setPlayerName, startGame, pauseGame } from '../redux/actions/gameActions';
 
 class GameContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      paused: false,
-      started: false,
+      name: props.playerName,
     };
   }
 
@@ -43,8 +21,17 @@ class GameContainer extends Component {
       name: value,
     });
 
+  startGameClickHandler = () => this.props.setPlayerName(this.state.name);
+
+  componentDidUpdate(prevProps) {
+    const { playerName, startGame } = this.props;
+    if (!prevProps.playerName && playerName) {
+      startGame();
+    }
+  }
+
   interactionHandler = e => {
-    const { name, paused } = this.state;
+    const { paused, startGame, pauseGame } = this.props;
     switch (e.key) {
       case 'ArrowUp':
         break;
@@ -55,9 +42,11 @@ class GameContainer extends Component {
       case 'ArrowDown':
         break;
       case 'Escape':
-        this.setState({
-          paused: name ? !paused : false,
-        });
+        if (paused) {
+          startGame();
+        } else {
+          pauseGame();
+        }
         break;
       default:
         break;
@@ -73,24 +62,39 @@ class GameContainer extends Component {
   }
 
   render() {
-    const { name, paused, started } = this.state;
+    const { wall, playerName, paused, startGame } = this.props;
+    const { name } = this.state;
+
     return (
       <Game wall={wall}>
-        {!started && (
-          <PlayerNameForm
-            value={name}
-            onChange={this.playerNameChangeHandler}
-            onStartGame={() => {
-              this.setState({
-                started: true,
-              });
-            }}
-          />
-        )}
-        {paused && started && <PauseMenu onResume={() => {}} />}
+        {paused &&
+          !playerName && (
+            <PlayerNameForm
+              value={name}
+              onChange={this.playerNameChangeHandler}
+              onStartGame={this.startGameClickHandler}
+            />
+          )}
+        {paused && playerName && <PauseMenu onResume={startGame} />}
       </Game>
     );
   }
 }
 
-export default GameContainer;
+const mapStateToProps = ({ gameState }) => ({
+  ...gameState,
+});
+const mapDispatchToProps = dispatcher =>
+  bindActionCreators(
+    {
+      setPlayerName,
+      startGame,
+      pauseGame,
+    },
+    dispatcher,
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(GameContainer);

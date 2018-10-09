@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { connect } from 'react-redux';
 
 import './AppHeader.css';
 
@@ -42,4 +43,6 @@ const AppHeader = ({ playerName, points, time }) => {
   );
 };
 
-export default AppHeader;
+const mapStateToProps = ({ gameState }) => ({ ...gameState });
+
+export default connect(mapStateToProps)(AppHeader);
