@@ -4,9 +4,20 @@ import { bindActionCreators } from 'redux';
 
 import Game from '../components/GameField/GameField';
 import PlayerNameForm from '../components/PlayerNameForm/PlayerNameForm';
+import FinishMenu from '../components/Menu/FinishMenu';
 import PauseMenu from '../components/Menu/PauseMenu';
-
-import { setPlayerName, startGame, pauseGame } from '../redux/actions/gameActions';
+import {
+  setPlayerName,
+  startGame,
+  timerTick,
+  rotateFigure,
+  moveFigureLeft,
+  moveFigureRight,
+  moveFigureDown,
+  pauseGame,
+  resetGame,
+} from '../redux/actions/gameActions';
+import { getWallWithFigure } from '../helpers/gameHelpers';
 
 class GameContainer extends Component {
   constructor(props) {
@@ -24,22 +35,32 @@ class GameContainer extends Component {
   startGameClickHandler = () => this.props.setPlayerName(this.state.name);
 
   componentDidUpdate(prevProps) {
-    const { playerName, startGame } = this.props;
+    const { playerName, paused, finished, startGame, timerTick } = this.props;
     if (!prevProps.playerName && playerName) {
       startGame();
+    }
+    if (prevProps.paused && !paused) {
+      this.gameTimer = setInterval(timerTick, 1000);
+    }
+    if ((!prevProps.paused && paused) || finished) {
+      clearInterval(this.gameTimer);
     }
   }
 
   interactionHandler = e => {
-    const { paused, startGame, pauseGame } = this.props;
+    const { rotateFigure, moveFigureLeft, moveFigureRight, moveFigureDown, pauseGame, startGame, paused } = this.props;
     switch (e.key) {
       case 'ArrowUp':
+        rotateFigure();
         break;
       case 'ArrowLeft':
+        moveFigureLeft();
         break;
       case 'ArrowRight':
+        moveFigureRight();
         break;
       case 'ArrowDown':
+        moveFigureDown();
         break;
       case 'Escape':
         if (paused) {
@@ -58,13 +79,14 @@ class GameContainer extends Component {
   }
 
   componentWillUnmount() {
+    const { resetGame } = this.props;
+    resetGame();
     document.documentElement.removeEventListener('keydown', this.interactionHandler);
   }
 
   render() {
-    const { wall, playerName, paused, startGame } = this.props;
+    const { wall, playerName, finished, paused, startGame } = this.props;
     const { name } = this.state;
-
     return (
       <Game wall={wall}>
         {paused &&
@@ -75,21 +97,29 @@ class GameContainer extends Component {
               onStartGame={this.startGameClickHandler}
             />
           )}
+        {finished && <FinishMenu />}
         {paused && playerName && <PauseMenu onResume={startGame} />}
       </Game>
     );
   }
 }
 
-const mapStateToProps = ({ gameState }) => ({
+const mapStateToProps = ({ gameState, gameState: { wall, figure, figurePosition } }) => ({
   ...gameState,
+  ...(figure ? { wall: getWallWithFigure(wall, figure, figurePosition) } : {}),
 });
 const mapDispatchToProps = dispatcher =>
   bindActionCreators(
     {
       setPlayerName,
       startGame,
+      timerTick,
+      rotateFigure,
+      moveFigureLeft,
+      moveFigureRight,
+      moveFigureDown,
       pauseGame,
+      resetGame,
     },
     dispatcher,
   );
