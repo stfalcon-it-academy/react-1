@@ -1,4 +1,6 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
+
 import './PlayerNameForm.css';
 
 export default ({ value, onChange, onStartGame }) => (
@@ -9,8 +11,12 @@ export default ({ value, onChange, onStartGame }) => (
       onStartGame();
     }}
   >
-    <label htmlFor="player-name">Введіть ім'я:</label>
+    <label htmlFor="player-name">
+      <FormattedMessage id="enter-your-name" />:
+    </label>
     <input type="text" id="player-name" value={value} onChange={onChange} required />
-    <button>Грати</button>
+    <button>
+      <FormattedMessage id="play" />
+    </button>
   </form>
 );

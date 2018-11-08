@@ -1,10 +1,13 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import Menu, { Link } from './Menu';
 
 export default () => (
   <Menu>
-    Ви програли!
-    <Link to="/">Головне меню</Link>
+    <FormattedMessage id="you-lose" />!
+    <Link to="/">
+      <FormattedMessage id="main-menu" />
+    </Link>
   </Menu>
 );

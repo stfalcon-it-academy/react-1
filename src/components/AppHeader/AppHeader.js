@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import { FormattedMessage, FormattedTime } from 'react-intl';
 
-import { addLeadingZero } from '../../helpers/stringHelpers';
 import './AppHeader.css';
 
 const AppHeader = ({ playerName, points, time }) => {
@@ -13,17 +13,23 @@ const AppHeader = ({ playerName, points, time }) => {
       <table>
         <tbody>
           <tr>
-            <td>Гравець:</td>
+            <td>
+              <FormattedMessage id="player" />:
+            </td>
             <td>{playerName || '---'}</td>
           </tr>
           <tr>
-            <td>Результат:</td>
+            <td>
+              <FormattedMessage id="result" />:
+            </td>
             <td>{points}</td>
           </tr>
           <tr>
-            <td>Час:</td>
             <td>
-              {Math.floor(duration.asHours())}:{addLeadingZero(duration.minutes())}:{addLeadingZero(duration.seconds())}
+              <FormattedMessage id="time" />:
+            </td>
+            <td>
+              <FormattedTime value={duration} hour="numeric" minute="numeric" second="numeric" timeZone="utc" />
             </td>
           </tr>
         </tbody>
