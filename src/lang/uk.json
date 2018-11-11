@@ -1,0 +1,18 @@
+{
+  "player": "Гравець",
+  "result": "Результат",
+  "time": "Час",
+  "new-game": "Нова гра",
+  "load-game": "Завантажити гру",
+  "leaders": "Лідери",
+  "enter-your-name": "Введіть ім'я",
+  "play": "Грати",
+  "you-lose": "Ви програли",
+  "main-menu": "Головне меню",
+  "saved": "Збережено",
+  "continue": "Продовжити",
+  "save-and-exit": "Зберегти і вийти",
+  "second": "секунда",
+  "few-seconds": "секунди",
+  "many-seconds": "секунд"
+}

@@ -1,0 +1,17 @@
+{
+  "player": "Player",
+  "result": "Result",
+  "time": "Time",
+  "new-game": "New game",
+  "load-game": "Load game",
+  "leaders": "Leaders",
+  "enter-your-name": "Enter your name",
+  "play": "Play",
+  "you-lose": "You lose",
+  "main-menu": "Main menu",
+  "saved": "Saved",
+  "continue": "Continue",
+  "second": "second",
+  "few-seconds": "seconds",
+  "many-seconds": "seconds"
+}
