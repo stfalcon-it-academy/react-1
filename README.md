@@ -1,23 +1,33 @@
-# Інтернаціоналізація в `React`
-## Пакет `react-intl` [→](https://github.com/yahoo/react-intl/wiki)
-### Додавання службових даних
+# CSS in JS
+## Огляд доступних пакетів [→](https://www.npmtrends.com/jss-vs-aphrodite-vs-radium-vs-styled-components-vs-glamorous-vs-emotion-vs-styletron-vs-glamor-vs-fela)
+### `styled-components` [→](https://www.styled-components.com/)
+1. Встановлення пакету
 ```
-import enLocale from 'react-intl/locale-data/en';
-import ukLocale from 'react-intl/locale-data/uk';
-
-addLocaleData([...enLocale, ...ukLocale]);
+npm i --save styled-components
 ```
-### Компоненти:
-- `<IntlProvider/>` [→](https://github.com/yahoo/react-intl/wiki/Components#intlprovider)
-- `<FormattedMessage/>` [→](https://github.com/yahoo/react-intl/wiki/Components#formattedmessage)
-- `<FormattedDate/>` [→](https://github.com/yahoo/react-intl/wiki/Components#formatteddate)
-- `<FormattedTime/>` [→](https://github.com/yahoo/react-intl/wiki/Components#formattedtime)
-- `<FormattedRelative/>` [→](https://github.com/yahoo/react-intl/wiki/Components#formattedrelative)
-- `<FormattedPlural/>` [→](https://github.com/yahoo/react-intl/wiki/Components#formattedplural)
-- `<FormattedNumber/>` [→](https://github.com/yahoo/react-intl/wiki/Components#formattednumber)
-- розширений синтаксис `<FormattedMessage/>` [→](https://formatjs.io/guides/message-syntax/)
-
-### HOC `injectIntl` [→](https://github.com/yahoo/react-intl/wiki/API#injectintl)
-- Date Formatting APIs [→](https://github.com/yahoo/react-intl/wiki/API#date-formatting-apis)
-- Number Formatting APIs [→](https://github.com/yahoo/react-intl/wiki/API#number-formatting-apis)
-- String Formatting APIs [→](https://github.com/yahoo/react-intl/wiki/API#string-formatting-apis)
+1. Стилізація компонента `Button` з меню
+```
+import styled from 'styled-components';
+const StyledButton = styled.button`
+…
+`;
+```
+1. Розрахунок стилів з `props`
+```
+const StyledButton = styled.button`
+  pointer-events: ${props => (props.disabled ? 'none' : 'all')};
+  opacity: ${props => (props.disabled ? 0.5 : 1)};
+`;
+```
+1. Стилізація компонента `Link` з меню
+```
+export const Link = ({ children, disabled, ...props }) => (
+  <StyledButton as={RouterLink} {...props}>
+    {children}
+  </StyledButton>
+);
+```
+1. Стилізація кореневого елемента меню
+1. Приклад стилізації будь-якого компонента
+1. Псевдоелементи, псевдокласи і вкладеність [→](https://www.styled-components.com/docs/basics#pseudoelements-pseudoselectors-and-nesting)
+1. Анімація
