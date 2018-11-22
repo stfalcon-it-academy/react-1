@@ -58,6 +58,11 @@ configure({ adapter: new Adapter() });
 ```
 - `shallow` i `mount`
 - тестування з `react-intl` [→](https://github.com/yahoo/react-intl/wiki/Testing-with-React-Intl)
+- доступ до `state` компонента з `wrapper.state()`
+- доступ до `props` компонента з `wrapper.props()`
+- "мокання" функцій `jest.fn()` [→](https://jestjs.io/docs/en/mock-functions)
+- симулювання подій з `wrapper.simulate('event', eventObj)`
+- доступ до методів компонента з `wrapper.instance()`
 
 ## Тестування `actions`
 - емуляція `store`

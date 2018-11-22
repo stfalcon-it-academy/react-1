@@ -25,6 +25,7 @@
     "axios-mock-adapter": "^1.15.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
+    "history": "^4.7.2",
     "prettier": "^1.14.0",
     "prop-types": "^15.6.2",
     "react-test-renderer": "^16.6.3",
